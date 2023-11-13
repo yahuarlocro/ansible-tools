@@ -1,0 +1,20 @@
+- name: add ethernet connection with static ip configuration
+  hosts: localhost 
+  tasks:
+    - name: add pci ethernet connection profile
+      community.general.nmcli:
+        conn_name: pci-connection
+        ifname: enp0s25
+        type: ethernet
+        ip4: 192.168.178.54/24
+        gw4: 192.168.178.1
+        state: present
+
+    - name: add usb ethernet connection profile
+      community.general.nmcli:
+        conn_name: usb-connection
+        ifname: enx0050b6e146be
+        type: ethernet
+        ip4: 192.168.178.54/24
+        gw4: 192.168.178.1
+        state: present

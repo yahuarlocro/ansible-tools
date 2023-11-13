@@ -1,0 +1,13 @@
+- name: install openfortivpn
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: install package
+      apt:
+       name: openfortivpn
+       update_cache: yes
+
+    - name: copy config file
+      ansible.builtin.copy:
+        src: ./config
+        dest: /etc/openfortivpn/

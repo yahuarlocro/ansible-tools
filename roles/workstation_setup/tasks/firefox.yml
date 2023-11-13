@@ -1,0 +1,16 @@
+- name: install firefox extended support release
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: remove firefox snap package
+      community.general.snap:
+        name: firefox
+        state: absent
+    - name: add mozilla ppa repository
+      ansible.builtin.apt_repository:
+        repo: ppa:mozillateam/ppa
+    - name: install mozilla firefox
+      ansible.builtin.apt:
+        name: firefox-esr
+        update_cache: yes
+

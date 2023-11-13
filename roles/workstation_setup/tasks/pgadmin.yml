@@ -1,0 +1,29 @@
+- name: install vscode
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: import the repository signing key
+      get_url:
+        url: "https://www.pgadmin.org/static/packages_pgadmin_org.pub"
+        dest: /etc/apt/keyrings/pgadmin.asc
+        mode: '0644'
+        force: true
+    
+    - name: Set DPKG architecture
+      ansible.builtin.set_fact:
+        dpkg_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+    
+    - debug:
+        msg: "{{ dpkg_arch }}"
+
+    - name: create the file repository configuration
+      apt_repository:
+        repo: "deb [arch={{ dpkg_arch }} signed-by=/etc/apt/keyrings/pgadmin.asc]  https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ ansible_distribution_release }} pgadmin4 main"
+        state: present
+        filename: pgadmin
+        update_cache: true
+
+    - name: update and install pgadmin for desktop mode only
+      apt:
+        name: pgadmin4-desktop
+        update_cache: yes

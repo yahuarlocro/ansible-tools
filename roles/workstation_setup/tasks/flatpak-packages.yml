@@ -1,0 +1,22 @@
+- name: install packages
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: install flatpak
+      ansible.builtin.apt:
+        name: flatpak
+    - name: install gnome software plugin flatpak
+      ansible.builtin.apt:
+        name: gnome-software-plugin-flatpak
+    - name: add flathub repository
+      community.general.flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    - name: install obsidian
+      community.general.flatpak:
+        name: md.obsidian.Obsidian
+    - name: install planner todo list
+      community.general.flatpak:
+        name: com.github.alainm23.planner
+    

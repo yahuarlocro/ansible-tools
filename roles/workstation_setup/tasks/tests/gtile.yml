@@ -1,0 +1,8 @@
+- name: install browser connector for ubuntu gtile extension
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: install package
+      apt:
+       name: chrome-gnome-shell
+       update_cache: yes

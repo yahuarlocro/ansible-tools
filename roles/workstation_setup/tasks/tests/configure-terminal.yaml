@@ -1,0 +1,22 @@
+- name: Configure terminal colors
+  hosts: localhost
+  tasks:
+   - name: get gnome terminal profile uuid [1]
+     command: gsettings get org.gnome.Terminal.ProfilesList default
+     register: terminal_profile
+   - name: echo terminal profile uuid [2]
+     debug:
+       msg: the uuid is {{terminal_profile.stdout}}
+   - name: dont use theme colors [3]
+     command: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{terminal_profile.stdout}}/ use-theme-colors "false"   
+     changed_when: true 
+   - name: foreground color [4]
+     command: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{terminal_profile.stdout}}/ foreground-color 'rgb(211,215,207)'
+   - name: background color [5]
+     command: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{terminal_profile.stdout}}/ background-color 'rgb(46,52,54)' 
+   - name: use theme transparency [6]
+     command: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{terminal_profile.stdout}}/ use-theme-transparency "false" 
+   - name: modify palette [7]
+     command: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{terminal_profile.stdout}}/ palette "['rgb(0,0,0)', 'rgb(204,0,0)', 'rgb(78,154,6)', 'rgb(196,160,0)', 'rgb(52,101,164)', 'rgb(117,80,123)', 'rgb(6,152,154)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(138,226,52)', 'rgb(252,233,79)', 'rgb(114,159,207)', 'rgb(173,127,168)', 'rgb(52,226,226)', 'rgb(238,238,236)']" 
+   - name: bold is bright [8]
+     command: gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{terminal_profile.stdout}}/ bold-is-bright "true" 

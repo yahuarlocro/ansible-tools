@@ -1,0 +1,11 @@
+- name: Configure keyboard input sources
+  hosts: localhost
+  tasks:
+   - name: add english US to keyboard [1]
+     command: gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'de'), ('xkb', 'us')]"
+   - name: add keyboard shortcut for gnome settings [2.1]
+     command: gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name 'gnome-settings'
+   - name: add keyboard shortcut for gnome settings [2.2]
+     command: gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command 'gnome-control-center'
+   - name: add keyboard shortcut for gnome settings [2.3]
+     command: gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Primary><Alt>s'

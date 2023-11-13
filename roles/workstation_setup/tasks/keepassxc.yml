@@ -1,0 +1,11 @@
+- name: install latest neovim
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: add keepassxc ppa repository
+      apt_repository:
+        repo: 'ppa:phoerious/keepassxc'
+    - name: install keepassxc
+      apt:
+       name: keepassxc
+       update_cache: yes

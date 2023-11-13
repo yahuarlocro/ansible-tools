@@ -1,0 +1,38 @@
+- name: install vscode
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: install ca-certificates
+      ansible.builtin.apt:
+        name: ca-certificates
+
+    - name: install curl
+      ansible.builtin.apt:
+        name: curl
+          
+    - name: download google public signing key
+      ansible.builtin.get_url:
+        url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+        dest: /etc/apt/keyrings/kubectl.asc
+        mode: '0644'
+        force: true
+
+    - name: Set DPKG architecture
+      ansible.builtin.set_fact:
+        dpkg_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+    
+    - debug:
+        msg: "{{ dpkg_arch }}"
+
+    - name: add kubernetes apt repository 
+      ansible.builtin.apt_repository:
+        repo: "deb [arch={{ dpkg_arch }} signed-by=/etc/apt/keyrings/kubectl.asc] https://apt.kubernetes.io/ kubernetes-xenial main"
+        state: present
+        filename: kubectl
+        update_cache: true
+
+    - name: install kubectl
+      ansible.builtin.apt:
+        pkg:
+          - kubectl
+        update_cache: yes

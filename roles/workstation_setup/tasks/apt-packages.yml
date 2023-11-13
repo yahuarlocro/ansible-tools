@@ -1,0 +1,52 @@
+- name: install packages
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: install curl
+      apt:
+       name: curl
+       update_cache: yes
+    - name: install ripgrep
+      apt:
+        name: ripgrep
+    - name: install vlc player
+      apt:
+        name: vlc
+    - name: install cifs-utils
+      apt:
+        name: cifs-utils
+    - name: install inkscape
+      apt:
+        name: inkscape
+    - name: install sshfs
+      apt:
+        name: sshfs
+    - name: install gimp
+      apt:
+        name: gimp
+    - name: install chrome-gnome-shell
+      apt:
+        name: chrome-gnome-shell
+    - name: install gnome-shell-extension-manager
+      apt:
+        name: gnome-shell-extension-manager
+    - name: install tmux
+      apt:
+        name: tmux
+    - name: install flatpak
+      apt:
+        name: flatpak
+    - name: install gnome software plugin flatpak
+      apt:
+        name: gnome-software-plugin-flatpak
+    - name: add flathub repository
+      community.general.flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    - name: install htop
+      apt:
+        name: htop
+    - name: install xclip
+      apt:
+        name: xclip

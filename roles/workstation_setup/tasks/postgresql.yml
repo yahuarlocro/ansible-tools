@@ -1,0 +1,29 @@
+- name: install vscode
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: Set DPKG architecture
+      ansible.builtin.set_fact:
+        dpkg_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+    
+    - debug:
+        msg: "{{ dpkg_arch }}"
+
+    - name: import the repository signing key
+      get_url:
+        url: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+        dest: /etc/apt/keyrings/postgresql.asc
+        mode: '0644'
+        force: true
+
+    - name: create the file repository configuration
+      apt_repository:
+        repo: "deb [arch={{ dpkg_arch }} signed-by=/etc/apt/keyrings/postgresql.asc] http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main"
+        state: present
+        filename: postgresql
+        update_cache: true
+
+    - name: update and install the latest version of PostgrSQL
+      apt:
+        name: postgresql
+        update_cache: yes

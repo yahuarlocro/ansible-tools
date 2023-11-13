@@ -1,0 +1,11 @@
+- name: install latest neovim
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: add git ppa repository
+      apt_repository:
+        repo: 'ppa:git-core/ppa'
+    - name: install git
+      apt:
+       name: git
+       update_cache: yes

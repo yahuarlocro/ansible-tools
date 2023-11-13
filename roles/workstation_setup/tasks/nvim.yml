@@ -1,0 +1,13 @@
+- name: install latest neovim
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: curl neovim app image
+      uri:
+        url: https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+        dest: /usr/bin/nvim
+
+    - name: change permissions to 755
+      ansible.builtin.file:
+        path: /usr/bin/nvim
+        mode: '0755'

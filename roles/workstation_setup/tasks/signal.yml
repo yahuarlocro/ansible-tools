@@ -1,0 +1,30 @@
+- name: install signal
+  hosts: localhost 
+  become: true
+  tasks:
+    - name: Set DPKG architecture
+      ansible.builtin.set_fact:
+        dpkg_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+    
+    - debug:
+        msg: "{{ dpkg_arch }}"
+
+    - name: import the repository signing key
+      get_url:
+        url: "https://updates.signal.org/desktop/apt/keys.asc"
+        dest: /etc/apt/keyrings/signal.asc
+        mode: '0644'
+        force: true
+
+    - name: create the file repository configuration
+      apt_repository:
+        repo: "deb [arch={{ dpkg_arch }} signed-by=/etc/apt/keyrings/signal.asc] https://updates.signal.org/desktop/apt xenial main"
+        # repo: "deb [arch={{ dpkg_arch }} signed-by=/etc/apt/keyrings/signal.asc] https://updates.signal.org/desktop/apt {{ ansible_distribution_release }} main"
+        state: present
+        filename: signal
+        update_cache: true
+
+    - name: update and install the latest version of signal
+      apt:
+        name: signal-desktop
+        update_cache: yes
