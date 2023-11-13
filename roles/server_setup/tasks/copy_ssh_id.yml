@@ -1,0 +1,9 @@
+---
+- name: copy ssh pub key to managed node 
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user }}"
+    state: present
+    # key: "{{ lookup('file', '~/.ssh/ssh_key_filename.pub') }}"
+    key: "{{ lookup('file', '~/.ssh/' + inventory_hostname + '.pub') }}"
+    
+

@@ -1,0 +1,26 @@
+# What - An application, stack or microservice (for example, database servers, web servers, and so on).
+# database_servers
+# web_servers
+
+# Where - A datacenter or region, to talk to local DNS, storage, and so on (for example, east, west).
+
+
+# When - The development stage, to avoid testing on production resources (for example, prod, test).
+# production
+# development
+# testing
+
+all:
+  hosts:
+    host1:
+      ansible_host: 192.168.115.2
+      ansible_user: hostuser1
+      ansible_connection: local
+
+    host2:
+      ansible_host: 192.168.115.3
+      ansible_user: hostuser2
+
+    host3:
+      ansible_host: 192.168.115.4
+      ansible_user: hostuser3

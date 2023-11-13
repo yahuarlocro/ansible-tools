@@ -1,0 +1,5 @@
+---
+# Setup/install tasks.
+- include_tasks: create_ssh_key.yml
+  when: ansible_distribution == 'Ubuntu'
+

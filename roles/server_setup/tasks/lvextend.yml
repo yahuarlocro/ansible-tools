@@ -1,0 +1,24 @@
+---
+# - name: display logical volume
+#   debug: 
+#     msg: lvdisplay -v
+#
+# - name: extend logical volume
+#   shell: 
+#     cmd: lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+#   changed_when: false
+#
+# - name: resize logical volume
+#   shell: 
+#     cmd: resize2fs /dev/ubuntu-vg/ubuntu-lv
+#   changed_when: false
+
+- name: resize logical volume
+  community.general.lvol:
+    vg: ubuntu-vg
+    lv: ubuntu-lv
+    size: +100%FREE
+    shrink: false
+    resizefs: true
+      
+

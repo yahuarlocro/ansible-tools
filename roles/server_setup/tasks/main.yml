@@ -1,0 +1,28 @@
+---
+# tasks file for server-setup
+- include_tasks: copy_ssh_id.yml
+  when: ansible_distribution == 'Ubuntu'
+
+- include_tasks: modify_sshd_config.yml
+  when: ansible_distribution == 'Ubuntu'
+
+- include_tasks: set_datetime.yml
+  when: ansible_distribution == 'Ubuntu'
+
+- include_tasks: lvextend.yml
+  when: ansible_distribution == 'Ubuntu'
+
+# - include_tasks: install_docker.yml
+#   when: ansible_distribution == 'Ubuntu'
+
+# - include_tasks: install_dck_compose.yml
+#   when: ansible_distribution == 'Ubuntu'
+
+# - include_tasks: install_zabbix.yml
+  # when: ansible_distribution == 'Ubuntu'
+
+# - include_tasks: reconfigure_zabbix.yml
+  # when: ansible_distribution == 'Ubuntu'
+
+- include_tasks: set_root_passwd.yml
+  when: ansible_distribution == 'Ubuntu'

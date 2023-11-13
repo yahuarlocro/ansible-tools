@@ -1,0 +1,35 @@
+---
+- name: replace port
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp:  '(\s+)#Port 22(\s+.*)?$'
+    replace: '\1Port 55\2'
+    backup: yes
+
+- name: replace permit root log in
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '(\s+)#PermitRootLogin prohibit-password(\s+.*)?$'
+    replace: '\1PermitRootLogin no\2'
+    
+- name: replace public key authentication
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '(\s+)#PubkeyAuthentication yes(\s+.*)?$'
+    replace: '\1PubkeyAuthentication yes\2'
+
+- name: replace password authentication
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '(\s+)#PasswordAuthentication yes(\s+.*)?$'
+    replace: '\1PasswordAuthentication no\2'
+
+- name: replace permit empty passwords
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '(\s+)#PermitEmptyPasswords no(\s+.*)?$'
+    replace: '\1PermitEmptyPasswords no\2'
+  notify:
+   - validate sshd configuration
+   - reload sshd
+   - update and upgrade packages
